@@ -216,3 +216,10 @@ MIT — see [LICENSE](LICENSE) for details.
 <p align="center">
   Built for <a href="https://openclaw.ai">OpenClaw</a> · <a href="https://discord.com/invite/clawd">Community</a> · <a href="https://clawhub.com">More Skills</a>
 </p>
+
+---
+
+## About this install (fork)
+
+Installed from https://github.com/aaburger85/clawarr-suite — a normalized fork of
+upstream, so `hermes skills check` / `update` can manage it. Behaviour is unchanged.
