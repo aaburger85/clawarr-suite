@@ -51,10 +51,12 @@ Container was holding reference to old (empty) mount point. Restart picks up cur
 **Diagnosis:**
 ```bash
 # Check what download client reports
-curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq
+curl \
+  -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq
 
 # Check queue for actual path
-curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/queue | jq '.records[].outputPath'
+curl \
+  -H "X-Api-Key: $KEY" http://host:7878/api/v3/queue | jq '.records[].outputPath'
 ```
 
 **Fix:** Settings → Download Clients → Remote Path Mappings
@@ -71,7 +73,8 @@ curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/queue | jq '.records[].outputP
 # In qBittorrent: Tools → Options → Downloads → Category
 
 # Check what Radarr expects
-curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq
+curl \
+  -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq
 ```
 
 **Fix:**
@@ -111,7 +114,8 @@ services:
 **Diagnosis:**
 ```bash
 # Check queue status
-curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/queue | jq '.records[] | {title, status}'
+curl \
+  -H "X-Api-Key: $KEY" http://host:7878/api/v3/queue | jq '.records[] | {title, status}'
 ```
 
 **Fix:** Wait for extraction to complete, or check download client for errors
@@ -224,10 +228,12 @@ Expects downloads at: `/downloads/complete/MovieName/`
 
 ```bash
 # Get download client config
-curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq
+curl \
+  -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq
 
 # Check what paths queue shows
-curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/queue | jq '.records[] | {title, outputPath, downloadClient}'
+curl \
+  -H "X-Api-Key: $KEY" http://host:7878/api/v3/queue | jq '.records[] | {title, outputPath, downloadClient}'
 
 # Exec into both containers and compare
 docker exec -it radarr ls -la /downloads
@@ -258,7 +264,8 @@ docker logs radarr --tail 50 | grep -i path
 docker exec -it radarr curl http://qbittorrent:8080
 
 # Check download client credentials
-curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq
+curl \
+  -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq
 ```
 
 **Fix:**
@@ -272,10 +279,12 @@ curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq
 **Diagnosis:**
 ```bash
 # Check indexer health
-curl -H "X-Api-Key: $PROWLARR_KEY" http://host:9696/api/v1/indexer | jq '.[] | {name, enable, priority}'
+curl \
+  -H "X-Api-Key: $PROWLARR_KEY" http://host:9696/api/v1/indexer | jq '.[] | {name, enable, priority}'
 
 # Check download client queue limit
-curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq '.[] | {name, protocol, priority}'
+curl \
+  -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq '.[] | {name, protocol, priority}'
 ```
 
 **Common causes:**
@@ -295,7 +304,8 @@ curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq '.[] | {na
 **Diagnosis:**
 ```bash
 # Check Radarr's expected category
-curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq '.[] | {name, category}'
+curl \
+  -H "X-Api-Key: $KEY" http://host:7878/api/v3/downloadclient | jq '.[] | {name, category}'
 
 # Check download client's actual category
 # In qBittorrent web UI: Right click torrent → Category
@@ -553,7 +563,8 @@ When encountering issues, run through:
 
 2. **Check connectivity:**
    ```bash
-   curl http://host:7878/api/v3/health -H "X-Api-Key: $KEY"
+   curl \
+     http://host:7878/api/v3/health -H "X-Api-Key: $KEY"
    ```
 
 3. **Check paths:**
@@ -576,7 +587,8 @@ When encountering issues, run through:
 
 6. **Check queue:**
    ```bash
-   curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/queue | jq
+   curl \
+     -H "X-Api-Key: $KEY" http://host:7878/api/v3/queue | jq
    ```
 
 7. **Run diagnostics script:**
@@ -597,12 +609,14 @@ When asking for help, provide:
 
 2. System info:
    ```bash
-   curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/system/status
+   curl \
+     -H "X-Api-Key: $KEY" http://host:7878/api/v3/system/status
    ```
 
 3. Queue status:
    ```bash
-   curl -H "X-Api-Key: $KEY" http://host:7878/api/v3/queue
+   curl \
+     -H "X-Api-Key: $KEY" http://host:7878/api/v3/queue
    ```
 
 4. Docker compose configuration (redact passwords)
